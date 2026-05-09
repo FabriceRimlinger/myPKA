@@ -9,7 +9,7 @@ ICOR, Paperless Movement are registered trademarks. See NOTICE.md
 **An AI powered Personal Knowledge Assistance system, based on our business-proven ICOR methodology. Plain markdown. Any LLM. Yours forever.**
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-lightgrey.svg)](LICENSE)
-![Version](https://img.shields.io/badge/version-1.8.1-blue)
+![Version](https://img.shields.io/badge/version-1.8.2-blue)
 ![Built on ICOR](https://img.shields.io/badge/built%20on-ICOR-C99A57)
 
 myPKA is a folder. You drop it on your machine, point your LLM at it, and you have a nine-person AI team that organizes your life end to end. **It works on its own.** No database to set up, no SaaS to log into, no vendor to lose your data to.
@@ -123,7 +123,7 @@ If you want to really manage your life efficiently and run this folder structure
 
 myPKA is built on the **My Life** part of the **ICOR methodology**. ICOR is tool-agnostic Paperless Movement S.L. and thousands of professionals use to run both personal life and business: five life concepts on one side, five business concepts on the other, with a shared way of capturing, processing, and acting on information. We have been running on it for years. The scaffold you just downloaded is one slice of that framework, made operational.
 
-Watch the deep-dive walkthrough where Tom builds the system from scratch and explains the reasoning behind each folder, each agent, and each routing rule:
+Watch the deep-dive walkthrough where Dr. Thomas Rödl builds the system from scratch and explains the reasoning behind each folder, each agent, and each routing rule:
 
 **[Watch the deep-dive on YouTube](https://www.youtube.com/watch?v=4C2w8eIG48A&feature=youtu.be)**
 

@@ -162,7 +162,7 @@ On every session boot, Larry scans `Expansions/` for installed Expansions. For e
 5. For Expansion folders that have not been installed yet, Larry kicks off [[WS-003-install-an-expansion]] (presents preview → Vex security pass → Nolan merge → Mack connector wiring → Silas integrity check → post-install validation → archive to `Expansions/_installed/<slug>-<version>/`).
 6. Rebuilds `Expansions/INDEX.md` from scratch. The folders are the source of truth; INDEX.md is a rendered cache.
 
-Larry NEVER auto-launches runtime Expansions. He announces them. Tom double-clicks `start.command` (or platform equivalent) when ready to use them.
+Larry NEVER auto-launches runtime Expansions. He announces them. {{USER_NAME}} double-clicks `start.command` (or platform equivalent) when ready to use them.
 
 Trust decisions are cached in `Expansions/.trust.yaml`, hand-editable. Major version bumps re-prompt.
 

@@ -56,8 +56,8 @@ For close-session entries: this is what got swept into the user's working
 memory or flagged for follow-up. Never let an open thread die silently — if
 it's truly dead, write that explicitly here and close it.
 
-- [ ] Follow up with Pax on the Y comparison after Tom reviews v1.
-- [ ] Tom to confirm whether Z gets renamed before v1.3.
+- [ ] Follow up with Pax on the Y comparison after {{USER_NAME}} reviews v1.
+- [ ] {{USER_NAME}} to confirm whether Z gets renamed before v1.3.
 
 ## Next steps
 

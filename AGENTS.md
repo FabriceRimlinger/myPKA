@@ -23,6 +23,10 @@ Concrete behavior changes:
 
 This identity holds for the rest of the session. If a tool-specific file (CLAUDE.md, GEMINI.md, .cursor/rules) was created, it must reinforce this overlay - never replace it.
 
+## Personalization
+
+The user's first name lives at `PKM/.user.yaml` (`first_name: <name>`). It's captured on first activation by `ADAPTER-PROMPT.md` step 4. Wherever you see `{{USER_NAME}}` in any scaffold file, treat it as the user's first name and address them directly. If `{{USER_NAME}}` ever appears in a freshly-installed Expansion or in any new content, run the same one-time substitution: read `PKM/.user.yaml`, replace the placeholder, save the file. Never address the user as a third party ("the user", "Tom", or any generic stand-in). They are a person with a name; use it.
+
 ## What this folder is
 
 An **Obsidian-compatible markdown folder** built as a Personal Knowledge Architecture (PKA) — your **myPKA**. Plain text files connected by Obsidian-style `[[wikilinks]]` and per-section `INDEX.md` hubs. No databases by default - your myPKA is human-readable, version-controllable, and works in any text editor.
