@@ -2,6 +2,46 @@
 
 All notable changes to the myPKA scaffold are tracked here. Versions follow semver: MAJOR for breaking structural changes, MINOR for additions, PATCH for fixes.
 
+## [1.10.0] - 2026-05-10
+
+Adds task management, per-agent journals, and an LLM-readable migration changelog. Additive — no breaking changes from v1.9.x. v1.9.x folders gain new directories and templates; nothing existing is moved, renamed, or modified.
+
+### Added
+
+- `Team Knowledge/tasks/` — markdown-first task management for unfinished work the team carries across sessions. Folder location encodes status (`open/`, `in-progress/`, `done/<YYYY>/<MM>/`, `cancelled/<YYYY>/<MM>/`). One `.md` file per task. Frontmatter holds six required cross-reference arrays (`linked_sops`, `linked_workstreams`, `linked_guidelines`, `linked_my_life`, `linked_session_logs`, `linked_journal_entries`) so any agent or human reopening a task is one wikilink away from the full working context.
+- `Team Knowledge/tasks/_template.md` — starter file for new tasks. Frontmatter schema is locked: every task uses the same fields with the same names so grep, parse, and rebuild are deterministic.
+- `Team Knowledge/tasks/INDEX.md` — auto-generated summary view (open by priority, in-progress by assignee, recently closed). Rebuilt at the end of every task-touching SOP and re-checked at session boot.
+- `Team Knowledge/tasks/{open,in-progress,done,cancelled}/.gitkeep` — placeholders so empty folders survive in git.
+- Task ID scheme: `tsk-YYYY-MM-DD-NNN`. Lexical sort matches chronological sort. Date-prefixed filenames stay self-describing when referenced from session logs months later.
+- `Team/<Name> - <Role>/journal/` — per-agent durable insight notes. One folder per shipped specialist (Larry, Nolan, Pax, Penn, Mack, Silas, Charta, Pixel, Iris). The agent commits an entry when they learn something cross-session: a lesson, a decision rule, an anti-pattern. Journal entries are topical, not chronological.
+- `Team/<Name> - <Role>/journal/_template.md` — starter file for journal entries. Locked frontmatter (`agent_id`, `type`, `topic`, `tags`, `linked_session_logs`, `linked_tasks`, `related_journal_entries`, `status`).
+- `.scaffold-version` — plain-text file at the repo root containing `1.10.0`. Single source of truth for which migrations apply.
+- `CHANGELOG-MIGRATION.md` — machine-actionable upgrade spec. Per-version sections with numbered, idempotent recipes any LLM can follow to upgrade an older myPKA folder. Includes a validation script that exits 0 on a structurally valid migration.
+- `validation-script.sh` — bash script at the repo root that verifies a folder is v1.10.0-compliant. Exits 0 on success, 1 on failure.
+- New SOPs in `Team Knowledge/SOPs/`:
+  - `SOP-create-task.md` — confronts all six cross-reference arrays at creation.
+  - `SOP-claim-task.md` — atomic claim via `git mv`. Loser retries on a re-list.
+  - `SOP-close-task.md` — moves to `done/` with outcome filled in. Surfaces open sub-tasks for explicit decision.
+  - `SOP-list-open-tasks.md` — folder walk that Larry runs at session boot.
+  - `SOP-rebuild-task-index.md` — awk-based, sub-500ms target on 1,000 tasks.
+  - `SOP-write-journal-entry.md` — trigger test, body shape, supersession rules.
+  - `SOP-read-own-journal.md` — what each agent runs before starting work on a task.
+  - `SOP-write-session-log.md` — extended to reference any tasks created or touched.
+
+### Changed
+
+- `VERSION` bumped from `1.9.0` to `1.10.0`. Minor bump — purely additive, no existing files break.
+- Expansions targeting v1.10.0+ should declare `mypka_compat: ">=1.10.0 <2.0.0"`.
+
+### Notes
+
+- Continuity is the principle this release is built on. The team should be able to pick up where it left off across sessions, even when a different specialist takes over. Tasks and journals serve that. There is no lifecycle theater.
+- Folder location, frontmatter, and body are redundant on purpose. An agent reading any one of the three can reconstruct enough to act. A grep walker can classify without opening files. A human can `cat` and understand.
+- There is no `blocked/` folder. Blocked tasks stay in `in-progress/` with `blocked_reason:` and `blocked_by:` set in frontmatter, so they surface in the assignee's normal queue scan rather than hiding in a folder no one greps.
+- Wikilinks use basenames only, never paths. Files can move across folders without breaking links. Same convention as the rest of the scaffold.
+- A SQLite mirror for tasks is sketched but deliberately not shipped in v1.10.0. Markdown stays canonical. The existing `SOP-002-convert-mypka-to-sqlite` is the right surface to extend when that need lands.
+- Backwards-compatible: v1.9.x Expansions and SOPs continue to work unchanged. The boot routine and per-agent `AGENTS.md` files are unchanged in v1.10.0; the task-walk and journal-read behaviors are codified in the new SOPs and surface naturally as the team discovers them.
+
 ## [1.9.0] - 2026-05-09
 
 **Host subagent binding ships out of the box.** First activation now generates host-specific subagent shims so the eight deputies (Penn, Pax, Nolan, Mack, Silas, Charta, Pixel, Iris) can dispatch in parallel via the host's agent runtime — not role-played in a single context. Larry is excluded (he's the main-session identity, not a dispatched subagent).

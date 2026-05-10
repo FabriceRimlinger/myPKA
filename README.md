@@ -9,7 +9,7 @@ ICOR, Paperless Movement are registered trademarks. See NOTICE.md
 **An AI powered Personal Knowledge Assistance system, based on our business-proven ICOR methodology. Plain markdown. Any LLM. Yours forever.**
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-lightgrey.svg)](LICENSE)
-![Version](https://img.shields.io/badge/version-1.9.0-blue)
+![Version](https://img.shields.io/badge/version-1.10.0-blue)
 ![Built on ICOR](https://img.shields.io/badge/built%20on-ICOR-C99A57)
 
 myPKA is a folder. You drop it on your machine, point your LLM at it, and you have a nine-person AI team that organizes your life end to end. **It works on its own.** No database to set up, no SaaS to log into, no vendor to lose your data to.
@@ -20,6 +20,16 @@ myPKA is a folder. You drop it on your machine, point your LLM at it, and you ha
 
 > **Why this is different from other scaffolds.** Most folder structures are someone's preference dressed up as a system. myPKA is the working slice of **ICOR**, a methodology Paperless Movement S.L. and thousands of professionals world wide have been running their own business on for years. Every folder, every routing decision, every specialist contract maps to a piece of that framework. The structure is not arbitrary. The reasoning is teachable. Both matter when you scale past the first week.
 
+## What's new in v1.10.0
+
+This release adds three things, all in service of one outcome: **the team picks up where it left off, even across sessions, even when a different specialist takes over.**
+
+- **A markdown-first task system.** Unfinished work gets written down as a plain `.md` file in `Team Knowledge/tasks/`. Folder location is the status. Frontmatter holds the cross-references back to the SOP, workstream, guideline, life entry, session log, and journal entry that give the work its context. Whoever opens the task next is one wikilink away from everything they need.
+- **Per-agent journals.** Each specialist now has a `journal/` inside their team folder. They write a short entry whenever they learn something durable — an anti-pattern, a decision rule, a "next time, do it this way." The next session starts smarter than the last one ended.
+- **An LLM-readable migration changelog.** `CHANGELOG-MIGRATION.md` at the root is a numbered, idempotent recipe any LLM can follow to upgrade an older myPKA folder. The folder is the database; the upgrade story lives in the folder too.
+
+That's it. No new tools, no new dependencies. Just three small additions to the same plain-markdown shape. Additive — v1.9.x folders gain new directories without losing anything.
+
 ## Get going now
 
 1. Clone or download the repo into a folder you'll actually use.
@@ -27,6 +37,7 @@ myPKA is a folder. You drop it on your machine, point your LLM at it, and you ha
 3. Paste the contents of `initialize yourself in this folder` as your first message.
 4. The LLM reads `ADAPTER-PROMPT.md`, writes a tool-specific pointer file (`CLAUDE.md`, `GEMINI.md`, etc.), and reports the team is online.
 5. Ask "Who are you?" and you'll see Larry is at your service.
+6. Ask "What's open?" and Larry walks the new `Team Knowledge/tasks/open/` folder for you.
 
 That's the whole setup. There is no install step.
 
@@ -37,6 +48,8 @@ Once you have the team online and start using it, you'll hit moments where you w
 A working knowledge system, fully assembled, that does this on day one:
 
 - **Organizes your life from a single daily journal.** You write what happened. The team files the people, projects, decisions, and ideas where they belong. Connections between notes are made for you.
+- **Remembers unfinished work for you.** When something can't finish in one turn, the team writes it down as a task in `Team Knowledge/tasks/`. Next session, Larry walks `tasks/open/` and surfaces what's waiting. The team genuinely picks up where it left off.
+- **Carries learning forward.** Each specialist keeps a journal of durable insights at `Team/<Name>/journal/`. When a task references one of their entries, they re-read their own past thinking before starting work.
 - **Runs in any LLM you already use.** Claude Code (and Claude Cowork), Codex CLI, Gemini CLI, Cursor, ChatGPT, Obsidian with a chat plugin. The same scaffold, the same team, the same files. You change models. Your knowledge doesn't move. Session-log triggers (`close session`, `keep this in mind`, `let's realign`, etc.) work with any LLM that reads `AGENTS.md` — ChatGPT, Claude, Gemini, Cursor, Cline, Codex, and the rest. Not Claude-only.
 - **Stays in plain markdown.** Every note is a `.md` file. You can read it without the AI. You can grep it. You can sync it with Dropbox or git. You can open it in Obsidian and keep working with no AI at all.
 - **Upgrades to SQLite when you outgrow plain files.** Once your myPKA gets large, paste the prompt at `Team Knowledge/SOPs/SOP-002-convert-mypka-to-sqlite.md` into your LLM. Markdown stays canonical. SQLite becomes a fast lookup layer on top.
@@ -60,7 +73,7 @@ Nine specialists ship pre-loaded. **You only ever talk to Larry.** Larry routes.
 <table>
 <tr>
 <td width="140" align="center"><img src="github/team/larry.png" width="120" alt="Larry the Red Fox - Team Leader and Orchestrator" /></td>
-<td><b>Larry - Team Leader & Orchestrator</b><br/><i>A Red Fox. Sharp ears, sharper instincts.</i><br/><br/>Every request you make lands with Larry first. He clarifies, picks the right specialist, hands off the brief, and synthesizes the answer back to you. He's also the team's <b>Librarian</b> (keeps the wiki clean, fixes broken <code>[[wikilinks]]</code>, enforces the SSOT Golden Rule) and <b>Session-Log Author</b> (writes a daily log of what the team did and what changed). Larry never executes specialist work himself - that's the iron rule.</td>
+<td><b>Larry - Team Leader & Orchestrator</b><br/><i>A Red Fox. Sharp ears, sharper instincts.</i><br/><br/>Every request you make lands with Larry first. He clarifies, picks the right specialist, hands off the brief, and synthesizes the answer back to you. He's also the team's <b>Librarian</b> (keeps the wiki clean, fixes broken <code>[[wikilinks]]</code>, enforces the SSOT Golden Rule), <b>Session-Log Author</b> (writes a daily log of what the team did and what changed), and as of v1.10.0, the team's <b>Task Walker</b> (surfaces what's open at session start). Larry never executes specialist work himself - that's the iron rule.</td>
 </tr>
 <tr>
 <td width="140" align="center"><img src="github/team/nolan.png" width="120" alt="Nolan the Pitbull - Talent Acquisition" /></td>
@@ -96,20 +109,48 @@ Nine specialists ship pre-loaded. **You only ever talk to Larry.** Larry routes.
 </tr>
 </table>
 
-Each specialist has a contract at `Team/<Name> - <Role>/AGENTS.md`. Full routing table at `Team/agent-index.md`.
+Each specialist has a contract at `Team/<Name> - <Role>/AGENTS.md`, and as of v1.10.0, a `journal/` folder for durable insights. Full routing table at `Team/agent-index.md`.
 
 > The full Paperless Movement team - including the AI specialists you can add via the **AI Library** - is at [myicor.com](https://myicor.com).
 
 ## What lives where
 
 - `PKM/` is your knowledge. `My Life/` holds the five life concepts (Goals, Habits, Topics, Projects, Key Elements). `Documents/`, `CRM/`, `Images/`, and `Journal/` sit alongside it. Notes connect through `[[wikilinks]]`, not nested folders.
-- `Team/` holds your specialists. One folder per agent. Each has its own `AGENTS.md`.
-- `Team Knowledge/` holds the team's playbook. SOPs are atomic procedures. Workstreams orchestrate multi-agent flows. Guidelines are static reference info.
+- `Team/` holds your specialists. One folder per agent. Each has its own `AGENTS.md` and, as of v1.10.0, its own `journal/` for durable cross-session insights.
+- `Team Knowledge/` holds the team's playbook. SOPs are atomic procedures. Workstreams orchestrate multi-agent flows. Guidelines are static reference info. **`tasks/` is new in v1.10.0** and holds unfinished work the team is tracking across sessions (`open/`, `in-progress/`, `done/<YYYY>/<MM>/`, `cancelled/<YYYY>/<MM>/`).
 - `Deliverables/` is where the team puts work-in-progress and finished artifacts - research briefs, hire workups, multi-file projects. Time-stamped, ephemeral, the team's working surface. **Pax** drops research here. **Nolan** drops hire workups here. **Larry** collects multi-specialist work here.
 - `Team Inbox/` is your drop zone for raw inputs. Drop screenshots, voice memos, business cards, links, or a quick braindump and the team files them into PKM. *"I have something, not sure where"* goes here. **Penn** usually picks it up, **Larry** routes it.
 - `AGENTS.md` at the root is the source of truth for how the whole team behaves.
 
 > **Note on note shape.** Every entity note (a Person, an Organization, a Project, a Goal, a Habit, a Topic, a Key Element, a Document) starts from a template in `Team Knowledge/Templates/`. Structured data lives in YAML frontmatter at the top of the file; narrative lives in the body. The canonical field schemas are in [[Team Knowledge/Guidelines/GL-002-frontmatter-conventions]]. The mypka-interface Properties tab and the SQLite migration both read frontmatter — keep your facts there, your stories in the body.
+
+## How a task flows
+
+Here's the whole shape, in plain English.
+
+You ask the team to do something that won't finish in one turn. Larry (or whoever picked up the request) writes a small markdown file into `Team Knowledge/tasks/open/`. The frontmatter names who it's for, why it matters, and what context already exists: which SOP applies, which workstream it belongs to, which session log birthed it, which life entry it touches, which journal entry the assignee should re-read first. The body restates the work in your words.
+
+When the assignee picks it up, the file moves from `open/` to `in-progress/` and they leave a one-line update inside it. They keep working. If they get blocked, they write the reason in the frontmatter so they (or someone else) know what to chase. When it's done, the file moves to `done/<year>/<month>/` with the outcome written in.
+
+Next session, Larry walks `tasks/open/` and `tasks/in-progress/` first, before doing anything else. The team starts the day knowing what's waiting and where things stood. Nothing falls on the floor between sessions.
+
+The journal sits next to this. When the assignee learns something durable while working a task — a build pattern that worked, an anti-pattern they want to remember, a rule of thumb — they write a short entry in their `journal/`. The next time a task references that entry, they re-read their own past thinking before starting. Learning compounds across sessions.
+
+## Migrating from v1.9.x to v1.10.0
+
+v1.10.0 is purely additive. v1.9.x folders gain new directories and templates. Nothing existing is moved, renamed, or modified.
+
+Open `CHANGELOG-MIGRATION.md` at the root and ask your LLM to run the recipe. It's nine numbered, idempotent steps. You can audit each one before it runs. After the migration, run `bash validation-script.sh .` from the scaffold root — it exits 0 when the upgrade is structurally complete.
+
+## Principles
+
+A few things we believe, that the folder is shaped around.
+
+- **Continuity over ceremony.** The team should be able to pick up where it left off, across sessions, even when a different specialist takes over. Tasks and journals serve that, nothing else. There is no lifecycle theater.
+- **The folder is the database.** Plain markdown, on your disk, readable without the AI. Frontmatter is the machine-readable layer. Wikilinks are the navigation layer. All three reinforce each other so any one of them is enough to act.
+- **Portability is the point.** You can swap LLM tools without migrating. You can sync the folder with Dropbox, iCloud, or git. You can open it in Obsidian on your phone. Your knowledge follows you, not the vendor.
+- **LLM-agnostic by construction.** Anything the team does, any agent can do, with `mv`, `mkdir`, `grep`, `awk`. No model-specific magic. No proprietary tool calls. If you can read markdown, you can run myPKA.
+- **Additive upgrades only.** When the scaffold gains a capability, older folders gain it without losing anything. Migration is plain-text recipes you can audit. Nothing destructive without your explicit OK.
 
 ## Coming from another tool?
 
