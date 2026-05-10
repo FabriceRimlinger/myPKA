@@ -2,6 +2,29 @@
 
 All notable changes to the myPKA scaffold are tracked here. Versions follow semver: MAJOR for breaking structural changes, MINOR for additions, PATCH for fixes.
 
+## [1.10.1] - 2026-05-10
+
+Wires v1.10.0's task system and journal SOPs into the agent contracts. v1.10.0 shipped the folder structure, templates, validation script, and 8 SOPs — but the AGENTS.md files were not updated, which meant the boot-walk and journal-read only happened if the LLM discovered the SOPs on its own. v1.10.1 closes that gap. No new SOPs, no new folders, no new behaviors — only contract-level wiring of what v1.10.0 already shipped.
+
+### Changed
+
+- `Team/Larry - Orchestrator/AGENTS.md` — adds `## Session boot — task-walk first` before `## Three duties`. Larry now walks `Team Knowledge/tasks/open/` + `tasks/in-progress/` per [[SOP-list-open-tasks]] at every session boot and surfaces open priority-1 / in-progress / blocked / stale items in the greeting. Tom no longer has to ask "what's open?" — the team picks up where it left off automatically.
+- `Team/Larry - Orchestrator/AGENTS.md` — Duty 1 step 4 (Brief) now requires Larry to create a task via [[SOP-create-task]] before delegating any work that won't finish in-turn, populating all six `linked_*` arrays. The specialist resumes from the task file, not from chat scrollback.
+- All 8 specialist AGENTS.md (Nolan, Pax, Penn, Mack, Silas, Charta, Pixel, Iris) — adds a shared `## Task discipline (v1.10.1)` section right after the agent's "When Larry routes to <Name>" section. The block wires three behaviors at dispatch:
+  1. Read your `linked_journal_entries` and the matching files in `Team/<your-name>/journal/` per [[SOP-read-own-journal]] before starting work. Auditable via a `## Updates` line that names the priors you carried.
+  2. When you create a task, populate all six `linked_*` arrays per [[SOP-create-task]].
+  3. When you close a task, write the `## Outcome` and, if there's a durable lesson, write a journal entry per [[SOP-write-journal-entry]] and link it from the closed task.
+- `validation-script.sh` — version check loosened from a hard `1.10.0` literal to a `1.10.x` glob so v1.10.x patch releases pass the same structural check. v1.10.0 folders still pass.
+
+### Migration
+
+None required. v1.10.1 is contract-only — no folder structure, schemas, or SOPs change.
+
+### Version files
+
+- `VERSION` → `1.10.1`
+- `.scaffold-version` → `1.10.1`
+
 ## [1.10.0] - 2026-05-10
 
 Adds task management, per-agent journals, and an LLM-readable migration changelog. Additive — no breaking changes from v1.9.x. v1.9.x folders gain new directories and templates; nothing existing is moved, renamed, or modified.

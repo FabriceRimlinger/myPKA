@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# validation-script.sh — verify a folder is myPKA scaffold v1.10.0-compliant.
+# validation-script.sh — verify a folder is myPKA scaffold v1.10.x-compliant.
 #
 # Usage:
 #   bash validation-script.sh <scaffold-root>
@@ -43,19 +43,25 @@ pass() {
 }
 
 # ----------------------------------------------------------------------------
-# 1. .scaffold-version exists and equals 1.10.0
+# 1. .scaffold-version exists and is in the v1.10.x line
 # ----------------------------------------------------------------------------
+# v1.10.x patch releases (1.10.0, 1.10.1, ...) all share the same structural
+# requirements, so any 1.10.x value passes this check. Bump the regex when a
+# 1.11.x line introduces structural changes.
 
 VERSION_FILE="$ROOT/.scaffold-version"
 if [ ! -f "$VERSION_FILE" ]; then
   fail ".scaffold-version not found at $VERSION_FILE"
 else
   VERSION=$(head -n1 "$VERSION_FILE" | tr -d '[:space:]')
-  if [ "$VERSION" = "1.10.0" ]; then
-    pass ".scaffold-version is 1.10.0"
-  else
-    fail ".scaffold-version is '$VERSION', expected '1.10.0'"
-  fi
+  case "$VERSION" in
+    1.10.*)
+      pass ".scaffold-version is $VERSION (v1.10.x line)"
+      ;;
+    *)
+      fail ".scaffold-version is '$VERSION', expected '1.10.x'"
+      ;;
+  esac
 fi
 
 # ----------------------------------------------------------------------------
@@ -228,7 +234,7 @@ if [ -n "$TASK_FILES" ]; then
   done <<< "$TASK_FILES"
   pass "checked $TASKS_CHECKED task file(s); $TASKS_BAD with frontmatter issues"
 else
-  pass "no task files yet (clean v1.10.0 install)"
+  pass "no task files yet (clean v1.10.x install)"
 fi
 
 # ----------------------------------------------------------------------------
