@@ -19,7 +19,7 @@ due: null
 
 # Provenance
 created_by: scaffold
-source: scaffold-v1.10.0-seed
+source: scaffold-seed
 parent: null
 
 # Cross-references — three populated to show the pattern
@@ -37,7 +37,7 @@ tags: [scaffold, onboarding]
 # Welcome — read this and then close me
 
 ## What this is
-This is a seed task created by the v1.10.0 migration so you can see what a real task file looks like in this folder. It's intentionally trivial — you read it, you close it. The point is to show the shape: frontmatter with required cross-reference arrays, body with "Context one click away," updates, outcome.
+This is a seed task included with the scaffold so you can see what a real task file looks like in this folder. It's intentionally trivial — you read it, you close it. The point is to show the shape: frontmatter with required cross-reference arrays, body with "Context one click away," updates, outcome.
 
 ## Context one click away
 - Procedure for creating tasks: [[SOP-create-task]]
@@ -59,7 +59,7 @@ This is a seed task created by the v1.10.0 migration so you can see what a real 
 - The `INDEX.md` in this folder is auto-generated. Don't edit it by hand.
 
 ## Updates
-- 2026-05-10 12:00 (scaffold) — created as part of v1.10.0 seed
+- 2026-05-10 12:00 (scaffold) — created as scaffold seed task
 
 ## Outcome
 _(filled when you close this — see [[SOP-close-task]])_
