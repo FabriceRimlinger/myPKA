@@ -9,7 +9,7 @@
 
 Session logs are the chronological resumption surface for the team. When tomorrow's session needs to know what yesterday's session did and decided, the session log is where that lives. They are the connective tissue between tasks (which point at session logs via `linked_session_logs`) and journal entries (which often link back to the session that birthed them).
 
-The format already exists in v1.x and v2.1.0 of the scaffold. v2.0.0 changes nothing about it. This SOP exists so newcomers know the convention without reverse-engineering it from existing files.
+The format already exists in v1.x of the scaffold. v1.10.0 added two new frontmatter fields (`linked_tasks`, `linked_journal_entries`) but the body shape is unchanged. This SOP exists so newcomers know the convention without reverse-engineering it from existing files.
 
 ## What a session log IS
 
@@ -64,7 +64,7 @@ Field notes:
 - `linked_tasks` lists tasks this session created, claimed, blocked, unblocked, or closed. Mirror of the `linked_session_logs` array those tasks carry.
 - `linked_journal_entries` lists journal entries birthed in this session.
 
-The legacy v1.x session-logs only have `linked_sops`, `linked_workstreams`, `linked_guidelines`. v2.0.0 adds `linked_tasks` and `linked_journal_entries`. Existing v1.x logs keep working — the missing fields are interpreted as empty arrays.
+The legacy v1.x session-logs only have `linked_sops`, `linked_workstreams`, `linked_guidelines`. v1.10.0 adds `linked_tasks` and `linked_journal_entries`. Existing pre-v1.10.0 logs keep working — the missing fields are interpreted as empty arrays.
 
 ## Body shape (recommended sections, not enforced)
 
