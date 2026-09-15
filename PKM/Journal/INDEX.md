@@ -22,7 +22,7 @@ See [[WS-001-daily-journaling]] for the full Workstream. Short version:
 
 ## Active files
 
-_(none yet — Penn writes the first entry here when you share your first journal input)_
+- 2026/09 — [[2026-09-15-monoprix-courses]]
 
 ## Subfolders by year
 

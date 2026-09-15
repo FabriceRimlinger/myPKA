@@ -9,7 +9,7 @@ People and Organizations the user interacts with. Cross-linked into Journal entr
 
 ## Active files
 
-_(none yet — Penn adds entries here as people and organizations show up in the Journal)_
+- Organizations/ — [[monoprix|Monoprix]]
 
 ## How the CRM stays in sync
 
